@@ -14,7 +14,7 @@
 
 ## English Version
 
-A lightweight, dynamic, and containerized portfolio designed for backend developers. It features a custom administrative panel for real-time content management (projects, FAQ, settings) without the bloat of a heavy CMS.
+A lightweight portfolio website. Includes a control panel for quick project editing. Perfect for quickly uploading a portfolio with examples; deploy in 10 minutes.
 
 ### Core Logic
 
@@ -69,7 +69,7 @@ A lightweight, dynamic, and containerized portfolio designed for backend develop
 
 ## Русская версия
 
-Легковесный сайт-портфолио. Включает в себя панель управления для быстрого редактирования проектов.
+Легковесный сайт-портфолио. Включает в себя панель управления для быстрого редактирования проектов. Подойдет вам, чтобы быстро закинуть портфолио с примерами, деплой за 10 минут.
 
 ### Технические особенности
 
