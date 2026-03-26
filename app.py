@@ -47,10 +47,10 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-super-secret-key')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///portfolio.db')
 app.config['UPLOAD_FOLDER'] = os.path.join(app.static_folder, 'uploads')
 
-admin_hash = 'GENERATED_HASH_FROM_YOUR_PASS' # Insert your HASH here.
+base_hash = 'scrypt:32768:8:1$nGRhWv7M4qraa4Bu$195dfd346b7a299b65991e313d08972923d272b2e2ed2fb10b159c3bd0b7a18908e5d99b09ddd90f2f418d52e1e6cd8392efbd50954213586932e6c52e5533a8'
 
 ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
-ADMIN_PASSWORD_HASH = os.environ.get('ADMIN_PASSWORD_HASH', admin_hash)
+ADMIN_PASSWORD_HASH = os.environ.get('ADMIN_PASSWORD_HASH', base_hash)
 
 
 db.init_app(app)
