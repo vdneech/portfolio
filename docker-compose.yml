@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: portfolio_web
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - portfolio_data:/app/data
+      - portfolio_uploads:/app/static/uploads
+
+  nginx:
+    image: nginx:alpine
+    container_name: portfolio_nginx
+    restart: always
+    ports:
+      - "80:80"
+#      - "443:443" Uncomment when the certs (SSL) are received
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./static:/app/static:ro
+      - portfolio_uploads:/app/static/uploads:ro
+#      - /etc/letsencrypt:/etc/letsencrypt:ro Uncomment when the certs (SSL) are received
+    depends_on:
+      - web
+
+volumes:
+  portfolio_data:
+  portfolio_uploads:

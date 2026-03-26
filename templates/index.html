@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ config.seo_title }}</title>
+    <meta name="description" content="{{ config.seo_description }}">
+    <meta name="keywords" content="{{ config.seo_keywords }}">
+    <meta name="author" content="{{ config.first_name }} {{ config.last_name }}">
+
+    <meta property="og:type" content="website">
+<!--    <meta property="og:url" content="https://your-domain.ru/">-->
+    <meta property="og:title" content="{{ config.seo_title }}">
+    <meta property="og:description" content="{{ config.seo_description }}">
+    <meta property="og:image" content="{{ url_for('static', filename='uploads/' + config.about_image, _external=True) if config.about_image else '' }}">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="{{ config.seo_title }}">
+    <meta property="twitter:description" content="{{ config.seo_description }}">
+
+    {% if config.favicon %}
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='uploads/' + config.favicon) }}">
+    {% endif %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="header">
+        <div class="nav-container">
+            <nav class="nav-links">
+                <a href="#about">Обо мне</a>
+                <a href="#portfolio">Работы</a>
+            </nav>
+            <div class="logo">{{ config.first_name | upper }} {{ config.last_name | upper }}</div>
+            <nav class="nav-links">
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Контакты</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero reveal">
+            <h1 class="hero-title">{{ config.hero_title | safe }}</h1>
+            <p class="hero-subtitle">{{ config.hero_subtitle }}</p>
+        </section>
+
+        <section id="about" class="about section-padding reveal">
+            <div class="about-grid">
+                <div class="about-text">
+                    <p class="mono-text">ОПЫТ И НАВЫКИ</p>
+                    <h2>{{ config.about_title }}</h2>
+                    <p>{{ config.about_text }}</p>
+                </div>
+                <div class="about-image">
+                    {% if config.about_image %}
+                        <img src="{{ url_for('static', filename='uploads/' + config.about_image) }}" alt="Фото автора" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                    {% else %}
+                        <div class="image-placeholder">Фото автора</div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="portfolio section-padding reveal">
+            <p class="mono-text">РАБОТЫ</p>
+            <h2 class="section-title">ИЗБРАННЫЕ КЕЙСЫ</h2>
+            <div class="portfolio-grid">
+
+                {% for case in cases %}
+                <div class="portfolio-card"
+                     data-title="{{ case.title }}"
+                     data-desc="{{ case.description }}"
+                     data-stack="{{ case.tech_stack }}"
+                     data-github="{{ case.github_link or '' }}"
+                     data-live="{{ case.live_link or '' }}"
+                     data-img="{% if case.image %}{{ url_for('static', filename='uploads/' + case.image) }}{% endif %}">
+
+                    {% if case.image %}
+                        <div class="card-image-placeholder" style="background-image: url('{{ url_for('static', filename='uploads/' + case.image) }}'); background-size: cover; background-position: center; border: none; color: transparent;">Кейс</div>
+                    {% else %}
+                        <div class="card-image-placeholder">Без фото</div>
+                    {% endif %}
+
+                    <h3 class="card-title">{{ case.title }}</h3>
+                </div>
+                {% else %}
+                    <p style="color: var(--text-secondary);">Кейсы пока не добавлены. Зайдите в админку.</p>
+                {% endfor %}
+
+            </div>
+        </section>
+
+        <section id="contact" class="contact section-padding reveal">
+            <h2 class="hero-title">LET'S TALK ABOUT<br>YOUR PROJECT</h2>
+
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3 class="contact-heading">СВЯЗЬ СО МНОЙ</h3>
+
+                    <div class="contact-item">
+                        <span class="mono-text">ПОЧТА</span>
+                        <a href="mailto:{{ config.email }}">{{ config.email }}</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="mono-text">Телефон</span>
+                        <a href="tel:{{ config.phone }}">{{ config.phone }}</a>
+                    </div>
+                    <div class="contact-item">
+                        <span class="mono-text">Telegram</span>
+                        <a href="{{ config.telegram }}">{{ config.telegram }}</a>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper">
+                    <h3 class="contact-heading">ОБРАТНАЯ СВЯЗЬ</h3>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">ИМЯ</label>
+                            <input type="text" id="name" name="name" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">ПОЧТА</label>
+                            <input type="email" id="email" name="email" placeholder="name@domain.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">СООБЩЕНИЕ</label>
+                            <textarea id="message" name="message" placeholder="Опишите вашу задачу..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Отправить</button>
+                        <p id="form-status" class="form-status"></p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="faq section-padding reveal">
+            <div class="contact-grid">
+                <div class="faq-info">
+                    <p class="mono-text">FAQ</p>
+                    <h3 class="contact-heading">QUICK<br>ANSWERS</h3>
+                </div>
+                <div class="accordion">
+                    {% for faq in faqs %}
+                    <div class="accordion-item">
+                        <button class="accordion-header">{{ faq.question }} <span class="icon">+</span></button>
+                        <div class="accordion-content">
+                            <p>{{ faq.answer }}</p>
+                        </div>
+                    </div>
+                    {% else %}
+                        <p style="color: var(--text-secondary);">FAQ пока не добавлены.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="nav-container">
+            <span>© 2026 {{ config.first_name }} {{ config.last_name }}</span>
+        </div>
+    </footer>
+
+    <div id="caseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <div id="modalImage" class="modal-image">Превью кейса</div>
+                <div class="modal-text">
+                    <h2 id="modalTitle">Название кейса</h2>
+                    <p class="mono-text" style="margin-bottom: 20px;">ОПИСАНИЕ ПРОЕКТА</p>
+                    <p id="modalDesc">Описание...</p>
+                    <p class="mono-text" style="margin-top: 20px;">СТЕК ТЕХНОЛОГИЙ</p>
+                    <p id="modalStack">Стек...</p>
+
+                    <div id="modalResourcesBlock" style="display: none;">
+                        <p class="mono-text" style="margin-top: 20px;">РЕСУРСЫ</p>
+                        <div id="modalLinks" style="display: flex; gap: 1rem; margin-top: 10px;">
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

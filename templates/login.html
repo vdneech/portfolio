@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в панель управления</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .login-wrapper {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-color);
+        }
+        .login-box {
+            background: var(--surface-color);
+            padding: 3rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border-color);
+        }
+        .login-box h2 {
+            margin-bottom: 2rem;
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .flash-message {
+            color: #ff4444;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-box">
+            <h2>Авторизация</h2>
+
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                {% for message in messages %}
+                  <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <form method="POST" class="contact-form">
+                <div class="form-group">
+                    <label for="username">ЛОГИН</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">ПАРОЛЬ</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="submit-btn">Войти</button>
+            </form>
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <a href="{{ url_for('index') }}" style="font-size: 0.85rem; color: var(--text-secondary);">← Вернуться на сайт</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
